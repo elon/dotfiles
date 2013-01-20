@@ -4,7 +4,7 @@ These files and others like them are used to set up each of my systems. It is an
 
 # Installation
 
-	git clone git://github.com/elon/dotfiles ~/dotfiles
+	git clone git@github.com:elon/dotfiles.git ~/dotfiles
 	cd ~/dotfiles
 	rake install
 	rake vim

@@ -94,7 +94,7 @@ module Dotfile
   end
 
   def curl path, url
-    exec_ext "curl -So #{path} #{url}"
+    exec_ext "curl -SLo #{path} #{url}"
     path
   end
 

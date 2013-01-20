@@ -1,0 +1,49 @@
+# TERM=xterm-256color
+# set a fancy prompt (non-color, unless we know we "want" color)
+# case "$TERM" in
+# 	xterm-color) color_prompt=yes;;
+# esac
+# color_prompt=yes
+
+custom_prompt() {
+	BLACK="\[\033[0;30m\]"
+	BBLACK="\[\033[1;30m\]"
+	BLUE="\[\033[0;34m\]"
+	WHITE="\[\033[0;37m\]"
+	BWHITE="\[\033[1;37m\]"
+	PS_CLEAR="\[\033[0m\]"
+	P="\$"
+
+	# git completion source: git://git.kernel.org/pub/scm/git/git.git
+	GIT_COMPLETE=/opt/git/contrib/completion/git-completion.bash
+	if [[ -f $GIT_COMPLETE ]]; then
+		source $GIT_COMPLETE;
+
+		export GIT_PS1_SHOWDIRTYSTATE=1
+		export GIT_PS1_SHOWSTASHSTATE=1
+		export GIT_PS1_SHOWUNTRACKEDFILES=1
+		export GIT_PS1_SHOWUPSTREAM="auto"
+		PS1="${BLUE}\w\n${BBLACK}\u${BBLACK}@${BBLACK}\h${BBLACK} [\j]\$(__git_ps1 \" (%s)\") ${BBLACK}$P${PS_CLEAR} "
+		PS2="> "
+	else
+		PS1="${BLUE}\w\n${BBLACK}\u${BBLACK}@${BBLACK}\h${BBLACK} [\j] ${BBLACK}$P${PS_CLEAR} "
+		PS2="> "
+	fi
+}
+
+# if [ "$color_prompt" = yes ]; then
+	# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+	custom_prompt
+# else
+# 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+# fi
+# unset color_prompt
+
+# set xterm title to user@host:dir
+case "$TERM" in
+	xterm*|rxvt*)
+	PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+	;;
+	*)
+	;;
+esac

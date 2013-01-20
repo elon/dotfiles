@@ -1,0 +1,7 @@
+#! /usr/bin/env ruby
+
+vms = `VBoxManage -q list runningvms |cut -d " " -f 1`
+vms.split("\n").each do |vm|
+    puts "shutting down: #{vm}"
+    puts `VBoxManage -q controlvm #{vm} savestate`
+end

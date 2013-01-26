@@ -1,4 +1,5 @@
 alias be='bundle exec'
+alias dir2web="ruby -rwebrick -e 'WEBrick::HTTPServer.new(:DocumentRoot => \".\", :Port => 3001).start'"
 alias du2='du -h --max-depth=1'
 alias du3='du -chs *| sort -h'
 alias fig='find . -type f | grep -v '.git' | grep -v '.swp' | grep -v '.tags' | grep -v _site | xargs grep -i'

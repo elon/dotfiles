@@ -14,6 +14,7 @@ VIM_REPOS = [
   %w(tpope vim-rails),
   %w(tpope vim-endwise),
   %w(tpope vim-markdown),
+  %w(tpope vim-eunuch),
   %w(scrooloose nerdtree),
 ]
 

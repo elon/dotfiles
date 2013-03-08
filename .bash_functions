@@ -18,6 +18,11 @@ alias todos='fig TODO | grep EMF'
 alias touchall="find . -type f -exec touch '{}' \;"
 alias wget_mirror='wget --mirror –w 2 –p --adjust-extension --convert-links'
 
+pdfencrypt() {
+	local f=$(basename $1)
+	pdftk $f output $f.128.pdf user_pw PROMPT
+}
+
 pushsshcert() {
     local _host
     test -f ~/.ssh/id_rsa.pub || ssh-keygen -t rsa

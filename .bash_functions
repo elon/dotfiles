@@ -63,13 +63,22 @@ function stoprails() {
 }
 
 function killrails() {
-	ps -e -www -o pid,command |grep unicorn |grep master |grep -v grep |sed 's/^[ ]*//'| cut -d " " -f 1| xargs kill -TERM
+	_pids=`ps -e -www -o pid,command |grep unicorn |grep master |grep -v grep |sed -e 's/^[ \t]*//'| cut -d " " -f 1`
+	if [ -n "$_pids" ];
+	then
+		kill -TERM $_pids
+	fi
 }
 
 function bouncerails() {
-	killrails
-	sleep 0.75
-	bundle exec unicorn_rails -D
+	stoprails
+	sleep 0.5
+	if [ -f "config/unicorn.conf" ]
+	then
+		bundle exec unicorn -c config/unicorn.conf -D
+	else
+		bundle exec unicorn_rails -D
+	fi
 }
 
 function psg() {

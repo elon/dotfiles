@@ -2,7 +2,7 @@ alias be='bundle exec'
 alias dir2web="ruby -rwebrick -e 'WEBrick::HTTPServer.new(:DocumentRoot => \".\", :Port => 3001).start'"
 alias du2='du -h --max-depth=1'
 alias du3='du -chs *| sort -h'
-alias fig='find . -type f | grep -v '.git' | grep -v '.swp' | grep -v '.tags' | grep -v _site | xargs grep -i'
+alias fig='find . -type f -print0| grep -v '.git' | grep -v '.swp' | grep -v '.tags' | grep -v _site | xargs -0 grep -i'
 alias fn='find . -name'
 alias gb='git branch -av'
 alias gdc='git diff --cached'

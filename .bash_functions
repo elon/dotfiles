@@ -2,7 +2,6 @@ alias be='bundle exec'
 alias dir2web="ruby -rwebrick -e 'WEBrick::HTTPServer.new(:DocumentRoot => \".\", :Port => 3001).start'"
 alias du2='du -h --max-depth=1'
 alias du3='du -chs *| sort -h'
-alias fig='find . -type f -print0| grep -v '.git' | grep -v '.swp' | grep -v '.tags' | grep -v _site | xargs -0 grep -i'
 alias fn='find . -name'
 alias gb='git branch -av'
 alias gdc='git diff --cached'
@@ -17,6 +16,17 @@ alias tlog='tail -n 20 -f log/development.log'
 alias todos='fig TODO | grep EMF'
 alias touchall="find . -type f -exec touch '{}' \;"
 alias wget_mirror='wget --mirror –w 2 –p --adjust-extension --convert-links'
+
+function fig() {
+	function _fig() {
+		find . -type f -print0| grep -z -v '.git' | grep -z -v '.swp' | grep -z -v '.tags' | grep -z -v _site
+	}
+	if [ $# -eq 1 ]; then
+		_fig | xargs -0 grep -i "$1"
+	elif [ $# -eq 2 ]; then
+		_fig | xargs -0 grep -i -l -Z "$1" | xargs -0 grep -i "$2"
+	fi
+}
 
 pdfencrypt() {
 	local f=$(basename $1)

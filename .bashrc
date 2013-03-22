@@ -15,6 +15,7 @@ set -o vi
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000
 HISTFILESIZE=11000
+HISTIGNORE=srm*:cryptsetup*:truecrypt*:mount*:umount*
 
 # append to the history file, don't overwrite it
 shopt -s histappend

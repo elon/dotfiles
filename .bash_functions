@@ -16,6 +16,7 @@ alias tlog='tail -n 20 -f log/development.log'
 alias todos='fig TODO | grep EMF'
 alias touchall="find . -type f -exec touch '{}' \;"
 alias wget_mirror='wget --mirror –w 2 –p --adjust-extension --convert-links'
+alias gopen='gnome-open'
 
 function fig() {
 	function _fig() {

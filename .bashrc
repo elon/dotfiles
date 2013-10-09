@@ -14,7 +14,6 @@ set -o vi
 # don't put duplicate lines in the history
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=10000
-HISTFILESIZE=11000
 HISTIGNORE=srm*:cryptsetup*:truecrypt*:mount*:umount*
 
 # append to the history file, don't overwrite it
@@ -83,10 +82,20 @@ test -n "$INTERACTIVE" -a -n "$LOGIN" && {
 	uptime
 }
 
-# set up rvm
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+# fix gnome-terminal - keep this below prompt definition
+if [[ $TERM=="xterm" && $COLORTERM=="gnome-terminal" ]]; then
+	export TERM="xterm-256color"
+fi
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+if [ -d $HOME/.rvm ]; then
+	[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+	PATH=$PATH:$HOME/.rvm/bin
+fi
+
+if [ -d $HOME/.rbenv ]; then
+	export PATH="$HOME/.rbenv/bin:$PATH"
+	eval "$(rbenv init -)"
+fi

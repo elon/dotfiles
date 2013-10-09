@@ -18,6 +18,11 @@ alias touchall="find . -type f -exec touch '{}' \;"
 alias wget_mirror='wget --mirror –w 2 –p --adjust-extension --convert-links'
 alias gopen='gnome-open'
 
+function clearhistory() {
+	history -w && history -c
+	cat /dev/null > ~/.bash_history
+}
+
 function fig() {
 	function _fig() {
 		find . -type f -print0| grep -z -v '.git' | grep -z -v '.swp' | grep -z -v '.tags' | grep -z -v _site

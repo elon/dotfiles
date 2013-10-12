@@ -21,8 +21,8 @@ fi
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-if [ -d $HOME/.rbenv ]; then
-	export PATH="$HOME/.rbenv/bin:$PATH"
-fi
+# if [ -d $HOME/.rbenv ]; then
+# 	export PATH="$HOME/.rbenv/bin:$PATH"
+# fi
 
 [[ -z $TERM ]] && export TERM=xterm

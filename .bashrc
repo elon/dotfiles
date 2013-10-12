@@ -75,8 +75,6 @@ export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:bin/javac::")
 
 [[ -s "$HOME/.bash_exports.local" ]] && source "$HOME/.bash_exports.local"
 
-export PATH=$(puniq $PATH)
-
 test -n "$INTERACTIVE" -a -n "$LOGIN" && {
 	uname -npsr
 	uptime
@@ -90,12 +88,12 @@ fi
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-if [ -d $HOME/.rvm ]; then
+if [ -d $HOME/.rbenv ]; then
+	export PATH="$HOME/.rbenv/bin:$PATH"
+	eval "$(rbenv init -)"
+elif [ -d $HOME/.rvm ]; then
 	[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 	PATH=$PATH:$HOME/.rvm/bin
 fi
 
-if [ -d $HOME/.rbenv ]; then
-	export PATH="$HOME/.rbenv/bin:$PATH"
-	eval "$(rbenv init -)"
-fi
+export PATH=$(puniq $PATH)

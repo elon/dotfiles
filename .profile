@@ -25,4 +25,4 @@ if [ -d $HOME/.rbenv ]; then
 	export PATH="$HOME/.rbenv/bin:$PATH"
 fi
 
-export TERM=xterm
+[[ -z $TERM ]] && export TERM=xterm

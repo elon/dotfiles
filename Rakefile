@@ -15,12 +15,16 @@ VIM_REPOS = [
   %w(tpope vim-endwise),
   %w(tpope vim-markdown),
   %w(tpope vim-eunuch),
+  %w(tpope vim-fugitive),
+  %w(tpope vim-bundler),
+  %w(mileszs ack.vim),
   %w(scrooloose nerdtree),
 ]
 
 PATHOGEN_URL = 'https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim'
 BUFEXPLORER_URL = 'http://www.vim.org/scripts/download_script.php?src_id=18766'
 MUSTANG_URL = 'http://www.vim.org/scripts/download_script.php?src_id=11274'
+SNIPMATE_URL = 'http://www.vim.org/scripts/download_script.php?src_id=11006'
 
 module Dotfile
 
@@ -154,6 +158,7 @@ task :vim do
   dirs << auto = home('.vim', 'autoload')
   dirs << colors = home('.vim', 'colors')
   dirs << bufdir = File.join(bundle, 'bufexplorer')
+  dirs << snipdir = File.join(bundle, 'snipmate')
   dirs.each { |d| FileUtils.mkdir_p d, fileopts }
 
   curl File.join(auto, 'pathogen.vim'), PATHOGEN_URL
@@ -161,6 +166,9 @@ task :vim do
 
   bufzip = File.join(bundle, 'bufexplorer.zip')
   unzip curl(bufzip, BUFEXPLORER_URL), bufdir
+
+  snipzip = File.join(bundle, 'snipMate.zip')
+  unzip curl(snipzip, SNIPMATE_URL), snipdir
 
   Dir.chdir bundle
   VIM_REPOS.each { |repo| export(*repo, bundle) }

@@ -398,10 +398,11 @@ augroup END
 
 " Haskell {{{
 
-augroup ft_haskell
-    au!
-    au BufEnter *.hs compiler ghc
-augroup END
+" TODO fix
+" augroup ft_haskell
+"     au!
+"     au BufEnter *.hs compiler ghc
+" augroup END
 
 " }}}
 
@@ -462,8 +463,9 @@ augroup END
 augroup ft_markdown
     au!
 
-    au BufNewFile,BufRead *.m*down setlocal filetype=markdown foldlevel=1
-
+    au BufNewFile,BufRead *.markdown,*.md,*.mdown,*.mkd,*.mkdn setlocal filetype=markdown
+    
+    au Filetype markdown foldlevel=1 fo+=t
     au Filetype markdown nnoremap <buffer> <localleader>1 mzI#<space><esc>
     au Filetype markdown nnoremap <buffer> <localleader>2 mzI##<space><esc>
     au Filetype markdown nnoremap <buffer> <localleader>3 mzI###<space><esc>
@@ -591,7 +593,6 @@ nnoremap <leader>a :Ack!<space>
 " Dispatch {{{
 
 nnoremap <leader>d :Dispatch<cr>
-nnoremap <leader>m :Dispatch<cr>
 
 " }}}
 

@@ -17,6 +17,7 @@ VIM_REPOS = [
   %w(tpope vim-eunuch),
   %w(tpope vim-fugitive),
   %w(tpope vim-bundler),
+  %w(tpope vim-dispatch),
   %w(mileszs ack.vim),
   %w(scrooloose nerdtree),
 ]

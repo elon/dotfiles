@@ -465,7 +465,7 @@ augroup ft_markdown
 
     au BufNewFile,BufRead *.markdown,*.md,*.mdown,*.mkd,*.mkdn setlocal filetype=markdown
     
-    au Filetype markdown foldlevel=1 fo+=t
+    au Filetype markdown setlocal foldlevel=1 fo+=t
     au Filetype markdown nnoremap <buffer> <localleader>1 mzI#<space><esc>
     au Filetype markdown nnoremap <buffer> <localleader>2 mzI##<space><esc>
     au Filetype markdown nnoremap <buffer> <localleader>3 mzI###<space><esc>

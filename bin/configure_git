@@ -1,0 +1,48 @@
+#! /bin/sh
+
+git config --global --replace-all core.editor /usr/bin/vim
+git config --global --replace-all core.whitespace fix,-indent-with-non-tab,trailing-space,cr-at-eol
+git config --global --replace-all core.excludesfile $HOME/.gitignore
+
+git config --global --replace-all color.ui auto
+
+git config --global --replace-all alias.st status
+git config --global --replace-all alias.ci commit
+git config --global --replace-all alias.br branch
+git config --global --replace-all alias.co checkout
+
+git config --global --replace-all alias.d diff
+git config --global --replace-all alias.dc "diff --cached"
+git config --global --replace-all alias.ds "diff --stat -r"
+git config --global --replace-all alias.changes "diff --name-status -r"
+
+git config --global --replace-all alias.lp "log -p"
+git config --global --replace-all alias.lg "log --graph --decorate --pretty=oneline --abbrev-commit"
+git config --global --replace-all alias.lga "log --graph --decorate --pretty=oneline --abbrev-commit --all"
+git config --global --replace-all alias.ll "log --pretty=format:\"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]\" --decorate --date=short"
+git config --global --replace-all alias.log-stat "log --pretty=format:\"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]\" --decorate --numstat"
+
+git config --global --replace-all alias.ls ls-files
+
+git config --global --replace-all alias.undo-last-commit "reset --soft HEAD^"
+git config --global --replace-all alias.reset-workspace "reset --hard"
+
+git config --global --replace-all alias.ignore "update-index --assume-unchanged"
+git config --global --replace-all alias.unignore "update-index --no-assume-unchanged"
+git config --global --replace-all alias.ignored "!git ls-files -v | grep ^[a-z]"
+
+git config --global --replace-all alias.start "!git init && git commit --allow-empty -m \'empty initial commit\'"
+
+# grep for file named $1
+git config --global --replace-all alias.f "!git ls-files | grep -i"
+# grep for content matching $1
+git config --global --replace-all alias.g "grep -Ii"
+
+# lc = log ORIG_HEAD.. --stat --no-merges
+# new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+# whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+# whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+# intercommit = !sh -c 'git show "$1" > .git/commit1 && git show "$2" > .git/commit2 && interdiff .git/commit[12] | less -FRS' -
+# sortdiff = !sh -c 'git diff "$@" | grep "^[+-]" | sort --key=1.2 | uniq -u -s1'
+# edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
+# add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"

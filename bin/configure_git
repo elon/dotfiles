@@ -31,7 +31,7 @@ git config --global --replace-all alias.ignore "update-index --assume-unchanged"
 git config --global --replace-all alias.unignore "update-index --no-assume-unchanged"
 git config --global --replace-all alias.ignored "!git ls-files -v | grep ^[a-z]"
 
-git config --global --replace-all alias.start "!git init && git commit --allow-empty -m \'empty initial commit\'"
+git config --global --replace-all alias.start "!git init && git commit --allow-empty -m \"empty initial commit\""
 
 # grep for file named $1
 git config --global --replace-all alias.f "!git ls-files | grep -i"

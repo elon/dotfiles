@@ -6,9 +6,9 @@ git config --global --replace-all core.excludesfile $HOME/.gitignore
 
 git config --global --replace-all color.ui auto
 
-git config --global --replace-all alias.st status
+git config --global --replace-all alias.s status
 git config --global --replace-all alias.ci commit
-git config --global --replace-all alias.br branch
+git config --global --replace-all alias.b branch
 git config --global --replace-all alias.co checkout
 
 git config --global --replace-all alias.d diff
@@ -32,6 +32,8 @@ git config --global --replace-all alias.unignore "update-index --no-assume-uncha
 git config --global --replace-all alias.ignored "!git ls-files -v | grep ^[a-z]"
 
 git config --global --replace-all alias.start "!git init && git commit --allow-empty -m \"empty initial commit\""
+
+git config --global --replace-all alias.alias "!git config --get-regexp alias|sort"
 
 # grep for file named $1
 git config --global --replace-all alias.f "!git ls-files | grep -i"

@@ -20,6 +20,7 @@ VIM_REPOS = [
   %w(tpope vim-dispatch),
   %w(mileszs ack.vim),
   %w(scrooloose nerdtree),
+  %w(elzr vim-json)
 ]
 
 PATHOGEN_URL = 'https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim'

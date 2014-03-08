@@ -1,0 +1,9 @@
+#! /usr/bin/env ruby
+
+vms = `VBoxManage list runningvms`
+vms = vms.split("\n").map {|v| v.split[0].gsub(/"/,'')}
+vms.each do |vm|
+  ip = `VBoxManage guestproperty enumerate #{vm}|grep Net/1/V4/IP`
+  ip = ip.scan(/value: ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/)
+  puts "#{vm}: #{ip.flatten}"
+end

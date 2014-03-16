@@ -1,23 +1,3 @@
-alias be='bundle exec'
-alias dir2web="ruby -rwebrick -e 'WEBrick::HTTPServer.new(:DocumentRoot => \".\", :Port => 3001).start'"
-alias du2='du -h --max-depth=1'
-alias du3='du -chs *| sort -h'
-alias fn='find . -name'
-alias gb='git branch -av'
-alias gdc='git diff --cached'
-alias gd='git diff'
-alias gl='git log --graph --abbrev-commit --pretty=oneline --decorate'
-alias gs='git status'
-alias h='history'
-alias ls2='ls -alF'
-alias ls3='ls -alFrt'
-alias respork='rkill.rb -v --unless-my-tty watchr; rkill.rb spork; bundle exec spork &'
-alias tlog='tail -n 20 -f log/development.log'
-alias todos='fig TODO | grep EMF'
-alias touchall="find . -type f -exec touch '{}' \;"
-alias wget_mirror='wget --mirror –w 2 –p --adjust-extension --convert-links'
-alias gopen='gnome-open'
-
 function clearhistory() {
 	history -w && history -c
 	cat /dev/null > ~/.bash_history

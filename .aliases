@@ -1,0 +1,25 @@
+alias be='bundle exec'
+alias du2='du -h --max-depth=1'
+alias du3='du -chs *| sort -h'
+alias fn='find . -name'
+alias gb='git branch -av'
+alias gdc='git diff --cached'
+alias gd='git diff'
+alias gl='git log --graph --abbrev-commit --pretty=oneline --decorate'
+alias gopen='gnome-open'
+alias gs='git status'
+alias gvim='gvim -reverse'
+alias h='history'
+alias ls2date="ls -alF --sort=time"
+alias ls2='ls -alF'
+alias ls3='ls -alFrt'
+alias lsl='ls -al --color=always |less -R'
+alias ps2="ps u --user $USER"
+alias ps3="ps u --user $USER --cols=400"
+alias pythonserver='python -mSimpleHTTPServer 3000'
+alias respork='rkill.rb -v --unless-my-tty watchr; rkill.rb spork; bundle exec spork &'
+alias sudop='sudo env PATH=$PATH'
+alias tlog='tail -n 20 -f log/development.log'
+alias todos='fig TODO && fig TODO | grep EMF'
+alias touchall="find . -type f -exec touch '{}' \;"
+alias wget_mirror='wget --mirror –w 2 –p --adjust-extension --convert-links'

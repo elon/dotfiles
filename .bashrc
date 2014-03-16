@@ -42,9 +42,7 @@ if [ -x /usr/bin/dircolors ]; then
 	alias egrep='egrep --color=auto'
 fi
 
-if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
-fi
+[[ -f ~/.aliases ]] && source ~/.aliases
 
 [[ -d "$HOME/bin" ]] && PATH="$HOME/bin:$PATH"
 
@@ -88,6 +86,8 @@ fi
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+# git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+# git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 if [ -d $HOME/.rbenv ]; then
 	export PATH="$HOME/.rbenv/bin:$PATH"
 	eval "$(rbenv init -)"

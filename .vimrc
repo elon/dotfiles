@@ -265,7 +265,6 @@ function! OpenDmenu(command) " {{{
 		echohl ErrorMsg | echomsg "dmenu is not available" | echohl None
 	endif
 endfunction
-nnoremap <c-t> :call OpenDmenu("e")<cr>
 command! -nargs=0 Tabt :call OpenDmenu("tabe")
 " }}}
 
@@ -325,7 +324,7 @@ call CreateDirIfNecessary(&directory)
 nnoremap <F3>    :tp<CR>
 nnoremap <F4>    :ts<CR>
 nnoremap <F5>    :tn<CR>
-nnoremap <leader>t :TlistToggle<CR>
+nnoremap <leader>t :call OpenDmenu("e")<cr>
 nnoremap <Leader>h :call pathogen#helptags()<cr>
 nnoremap <C-F12> :!ctags -R --exclude=.git --exclude=logs --exclude=doc -f .tags .<CR>
 nnoremap <leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
@@ -354,9 +353,6 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 " autocommands {{{
 augroup misc
     au!
-
-    au FileType * if exists("+omnifunc") && &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
-    au FileType * if exists("+completefunc") && &completefunc == "" | setlocal completefunc=syntaxcomplete#Complete | endif
 
     " resize splits on window resize
     au VimResized * :wincmd =
@@ -512,9 +508,11 @@ augroup ft_ruby
 
     au Filetype ruby setlocal foldmethod=syntax foldlevel=1
     au FileType ruby nnoremap <buffer> <leader>r :!rake spec<CR>
-    au Filetype ruby setlocal tags+=~/.vim/tags/ruby_and_gems
     au FileType ruby setlocal ai et sta sw=2 sts=2
     au BufRead,BufNewFile Capfile setlocal filetype=ruby
+    au FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+    au FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+    au FileType ruby,eruby let g:rubycomplete_rails = 1
 
 augroup END
 
@@ -634,3 +632,4 @@ if filereadable(expand("~/.vimrc.local"))
 endif
 
 " }}}
+

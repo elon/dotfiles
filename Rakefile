@@ -9,18 +9,30 @@ REJECT_FILTERS = [ /\.swp$/, /\.swo$/ ]
 $noop = false
 $verbose = true
 
-VIM_REPOS = [
-  %w(tpope vim-surround),
-  %w(tpope vim-rails),
-  %w(tpope vim-endwise),
+LTD_REPOS = [
   %w(tpope vim-markdown),
-  %w(tpope vim-eunuch),
-  %w(tpope vim-fugitive),
+  %w(scrooloose nerdtree),
+  %w(elzr vim-json),
+]
+
+VIM_REPOS = [
+  %w(ervandew supertab),
+  %w(mileszs ack.vim),
   %w(tpope vim-bundler),
   %w(tpope vim-dispatch),
-  %w(mileszs ack.vim),
-  %w(scrooloose nerdtree),
-  %w(elzr vim-json)
+  %w(tpope vim-endwise),
+  %w(tpope vim-eunuch),
+  %w(tpope vim-fugitive),
+  %w(tpope vim-projectile),
+  %w(tpope vim-rails),
+  %w(tpope vim-rake),
+  %w(tpope vim-rbenv),
+  %w(tpope vim-surround),
+  %w(vim-ruby vim-ruby),
+  %w(tomtom tlib_vim),
+  %w(MarcWeber vim-addon-mw-utils),
+  %w(garbas vim-snipmate),
+  %w(honza vim-snippets)
 ]
 
 PATHOGEN_URL = 'https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim'
@@ -153,14 +165,14 @@ task :list do
   binfiles { |file| puts file }
 end
 
-desc 'install vim plugins'
+desc 'install minimal vim plugins'
 task :vim do
   dirs = []
   dirs << bundle = home('.vim', 'bundle')
   dirs << auto = home('.vim', 'autoload')
   dirs << colors = home('.vim', 'colors')
   dirs << bufdir = File.join(bundle, 'bufexplorer')
-  dirs << snipdir = File.join(bundle, 'snipmate')
+  # dirs << snipdir = File.join(bundle, 'snipmate')
   dirs.each { |d| FileUtils.mkdir_p d, fileopts }
 
   curl File.join(auto, 'pathogen.vim'), PATHOGEN_URL
@@ -169,8 +181,17 @@ task :vim do
   bufzip = File.join(bundle, 'bufexplorer.zip')
   unzip curl(bufzip, BUFEXPLORER_URL), bufdir
 
-  snipzip = File.join(bundle, 'snipMate.zip')
-  unzip curl(snipzip, SNIPMATE_URL), snipdir
+  Dir.chdir bundle
+  LTD_REPOS.each { |repo| export(*repo, bundle) }
+end
+
+desc 'install all vim plugins'
+task :vimall => [:vim] do
+
+  bundle = home('.vim', 'bundle')
+
+  # snipzip = File.join(bundle, 'snipMate.zip')
+  # unzip curl(snipzip, SNIPMATE_URL), snipdir
 
   Dir.chdir bundle
   VIM_REPOS.each { |repo| export(*repo, bundle) }

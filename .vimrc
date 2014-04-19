@@ -7,6 +7,7 @@
 " Credit: http://vim.wikia.com/wiki/Vim_Tips_Wiki
 " Credit: http://www.vim.org/scripts/script.php?script_id=2226
 
+
 " important {{{
 
 call pathogen#infect()           " install pathogen under ~/.vim/autoload
@@ -36,9 +37,6 @@ set spellfile=~/.vim/custom-dictionary.utf-8.add
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%y%{exists('*rails#statusline')?rails#statusline():''}%{exists('*fugitive#statusline')?fugitive#statusline():''}%#ErrorMsg#%{exists('*SyntasticStatuslineFlag')?SyntasticStatuslineFlag():''}%*%=%-16(\ %l,%c-%v\ %)%P
 set ttyfast
 set visualbell
-
-" TODO rebuild ctags support
-set tags+=./.tags " set tags+=${HOME}/.ctags/*
 
 " wild(mode/menu/ignore) {{{
 set wildmenu
@@ -265,7 +263,6 @@ function! OpenDmenu(command) " {{{
 		echohl ErrorMsg | echomsg "dmenu is not available" | echohl None
 	endif
 endfunction
-nnoremap <c-t> :call OpenDmenu("e")<cr>
 command! -nargs=0 Tabt :call OpenDmenu("tabe")
 " }}}
 
@@ -325,7 +322,7 @@ call CreateDirIfNecessary(&directory)
 nnoremap <F3>    :tp<CR>
 nnoremap <F4>    :ts<CR>
 nnoremap <F5>    :tn<CR>
-nnoremap <leader>t :TlistToggle<CR>
+nnoremap <leader>t :call OpenDmenu("e")<cr>
 nnoremap <Leader>h :call pathogen#helptags()<cr>
 nnoremap <C-F12> :!ctags -R --exclude=.git --exclude=logs --exclude=doc -f .tags .<CR>
 nnoremap <leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
@@ -355,11 +352,13 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 augroup misc
     au!
 
-    au FileType * if exists("+omnifunc") && &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
-    au FileType * if exists("+completefunc") && &completefunc == "" | setlocal completefunc=syntaxcomplete#Complete | endif
-
     " resize splits on window resize
     au VimResized * :wincmd =
+
+    au Filetype *
+        \ if &omnifunc == "" |
+        \         setlocal omnifunc=syntaxcomplete#Complete |
+        \ endif
 
 augroup END
 
@@ -505,16 +504,20 @@ augroup END
 
 " Ruby {{{
 
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+let g:rubycomplete_rails = 1
+let g:rubycomplete_load_gemfile = 0
+
 augroup ft_ruby
     au!
 
     au BufNewFile,BufRead *.eruby,Vagrantfile setlocal filetype=ruby
-
     au Filetype ruby setlocal foldmethod=syntax foldlevel=1
     au FileType ruby nnoremap <buffer> <leader>r :!rake spec<CR>
-    au Filetype ruby setlocal tags+=~/.vim/tags/ruby_and_gems
     au FileType ruby setlocal ai et sta sw=2 sts=2
     au BufRead,BufNewFile Capfile setlocal filetype=ruby
+    au FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 augroup END
 

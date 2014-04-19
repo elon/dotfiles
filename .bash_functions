@@ -30,11 +30,6 @@ pushsshcert() {
     done
 }
 
-function cdgem() {
-	cd `gem env gemdir`/gems
-	cd `ls | grep $1 | sort | tail -1`
-}
-
 function bigfiles() {
 	local bigpath=$1
 	if [ -z $bigpath ]; then

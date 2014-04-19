@@ -520,6 +520,61 @@ augroup END
 
 " }}}
 
+" txt2 {{{
+
+augroup ft_txt2
+    au!
+
+    au BufNewFile,BufRead *.txt2 setlocal filetype=textoutline 
+    au FileType textoutline setlocal foldmethod=expr
+    au FileType textoutline setlocal foldlevel=0
+    au FileType textoutline setlocal foldexpr=SaneIndentFold(v:lnum)
+    au FileType textoutline setlocal foldtext=CustomFolds()
+    au FileType textoutline setlocal fillchars=fold:\ 
+augroup END
+
+function! IndentLevel(lnum) " {{{
+    return indent(a:lnum) / &shiftwidth
+endfunction
+
+" }}}
+
+function! NextNonBlankLine(lnum) " {{{
+    let numlines = line('$')
+    let current = a:lnum + 1
+
+    while current <= numlines
+        if getline(current) =~? '\v\S'
+            return current
+        endif
+
+        let current += 1
+    endwhile
+
+    return -2
+endfunction
+
+" }}}
+
+function! SaneIndentFold(lnum) " {{{
+    if getline(a:lnum) =~? '\v^\s*$'
+        return '-1'
+    endif
+
+    let this_indent = IndentLevel(a:lnum)
+    let next_indent = IndentLevel(NextNonBlankLine(a:lnum))
+
+    if next_indent == this_indent
+        return this_indent
+    elseif next_indent < this_indent
+        return this_indent
+    elseif next_indent > this_indent
+        return '>' . next_indent
+    endif
+endfunction " }}}
+
+" }}}
+
 " Vim {{{
 
 augroup ft_vim

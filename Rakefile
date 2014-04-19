@@ -28,7 +28,11 @@ VIM_REPOS = [
   %w(tpope vim-rake),
   %w(tpope vim-rbenv),
   %w(tpope vim-surround),
-  %w(vim-ruby vim-ruby)
+  %w(vim-ruby vim-ruby),
+  %w(tomtom tlib_vim),
+  %w(MarcWeber vim-addon-mw-utils),
+  %w(garbas vim-snipmate),
+  %w(honza vim-snippets)
 ]
 
 PATHOGEN_URL = 'https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim'

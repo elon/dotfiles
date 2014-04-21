@@ -1,0 +1,8 @@
+#! /bin/sh
+
+if [ -z `which killall` ]; then
+    ps -eww -o pid,command|grep 'pidgin'|grep -v grep |sed -e 's/^[ \t]*//'| cut -d " " -f 1 |xargs kill -TERM 2>/dev/null
+    ps -eww -o pid,command|grep 'skype' |grep -v grep |sed -e 's/^[ \t]*//'| cut -d " " -f 1 |xargs kill -TERM 2>/dev/null
+else
+    killall pidgin skype
+fi

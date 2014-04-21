@@ -5,3 +5,5 @@ vms.split("\n").each do |vm|
     puts "shutting down: #{vm}"
     puts `VBoxManage -q controlvm #{vm} savestate`
 end
+
+`ps -eww -o pid,command|grep '/usr/lib/virtualbox/VirtualBox'|grep -v grep|sed -e 's/^[ \t]*//'| cut -d " " -f 1|xargs kill -TERM`

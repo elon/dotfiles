@@ -188,60 +188,39 @@ function! MarkdownToFirefox()
 endfunction
 
 function! Run() " {{{
-
-	let old_makeprg = &makeprg
-	let cmd = matchstr(getline(1),'^#!\zs[^ ]*')
-	if exists("b:run_command")
-		exe b:run_command
-	elseif cmd != '' && executable(cmd)
-		wa
-		let &makeprg = matchstr(getline(1),'^#!\zs.*').' %'
-		make
-	elseif &ft == "mail" || &ft == "text" || &ft == "help" || &ft == "gitcommit" || &ft == "markdown"
-		setlocal spell!
-	elseif exists("b:rails_root") && exists(":Rake")
-		wa
-		Rake
-	elseif &ft == "ruby"
-		wa
-		if executable(expand("%:p")) || getline(1) =~ '^#!'
-			compiler ruby
-			let &makeprg = "ruby"
-			make %
-		elseif expand("%:t") =~ '_(spec|test)\.rb$'
-			compiler ruby
-			let &makeprg = "ruby"
-			make %
-		else
-			!irb -r"%:p"
-		endif
-	elseif &ft == "javascript"
-		let &makeprg = "node"
-		make %
-	elseif &ft == "html" || &ft == "xhtml"
-		wa
-		if !exists("b:url")
-			call OpenURL(expand("%:p"))
-		else
-			call OpenURL(b:url)
-		endif
-	elseif &ft == "vim"
-		wa
-		unlet! g:loaded_{expand("%:t:r")}
-		return 'source %'
-	elseif expand("%:t") == "xmonad.hs"
-		let &makeprg = "xmonad --recompile"
-		make
-	else
-		wa
-		if &makeprg =~ "%"
-			make
-		else
-			make %
-		endif
-	endif
-	let &makeprg = old_makeprg
-	return ""
+  let cmd = matchstr(getline(1),'^#!\zs[^ ]*')
+  if exists('b:run_command')
+    exe b:run_command
+  elseif cmd != '' && executable(cmd)
+    wa
+    let cmd = matchstr(getline(1),'^#!\zs.*').' %'
+    if exists(':Dispatch')
+      execute 'Dispatch '.cmd
+    else
+      execute '!'.cmd
+    endif
+  elseif &ft == 'mail' || &ft == 'text' || &ft == 'help' || &ft == 'gitcommit' || &ft == 'markdown'
+    setlocal spell!
+  elseif exists('b:rails_root') && exists(':Rake')
+    wa
+    Rake
+  elseif &ft == 'ruby' && b:dispatch =~# '-Wc'
+    wa
+    if executable('pry') && exists('b:rake_root')
+      execute '!pry -I"'.b:rake_root.'/lib" -r"%:p"'
+    elseif executable('pry')
+      !pry -r"%:p"
+    else
+      !irb -r"%:p"
+    endif
+  elseif exists('b:dispatch') && b:dispatch =~# '^:.'
+    execute b:dispatch
+  elseif exists(':Dispatch') && exists('b:dispatch')
+    Dispatch
+  elseif exists('b:dispatch')
+    execute '!'.b:dispatch
+  endif
+  return ''
 endfunction
 command! -bar Run :execute Run()
 " }}}
@@ -360,6 +339,12 @@ augroup misc
         \         setlocal omnifunc=syntaxcomplete#Complete |
         \ endif
 
+    au BufReadPost * 
+        \ if getline(1) =~# '^#!' | 
+        \   let b:dispatch = getline(1)[2:-1] . ' %' | 
+        \   let b:start = b:dispatch | 
+        \ endif
+
 augroup END
 
 augroup line_return
@@ -403,6 +388,8 @@ augroup END
 "     au BufEnter *.hs compiler ghc
 " augroup END
 
+    au BufRead xmonad.hs let b:dispatch = 'xmonad --recompile'
+
 " }}}
 
 " HTML {{{
@@ -422,6 +409,8 @@ augroup ft_html
 
     " Indent tag
     au FileType html nnoremap <buffer> <localleader>= Vat=
+
+    au FileType html let b:dispatch = ':OpenURL %'
 
 augroup END
 
@@ -452,6 +441,8 @@ augroup ft_javascript
 
     " TODO incomplete
     nnoremap <leader>fj :call FormatJavaScript()<cr>
+
+    au FileType javascript let b:dispatch = 'node %'
 
 augroup END
 
@@ -518,6 +509,16 @@ augroup ft_ruby
     au FileType ruby setlocal ai et sta sw=2 sts=2
     au BufRead,BufNewFile Capfile setlocal filetype=ruby
     au FileType ruby setlocal omnifunc=rubycomplete#Complete
+    " TODO reset _spec to rspec
+    au FileType ruby
+          \ let b:start = executable('pry') ? 'pry -r "%:p"' : 'irb -r "%:p"' |
+          \ if expand('%') =~# '_test\.rb$' |
+          \ let b:dispatch = 'testrb %' |
+          \ elseif expand('%') =~# '_spec\.rb$' |
+          \ let b:dispatch = 'testrb %' |
+          \ else |
+          \ let b:dispatch = 'ruby -wc %' |
+          \ endif
 
 augroup END
 
@@ -532,6 +533,15 @@ augroup ft_vim
     au FileType help setlocal textwidth=80
     " open help to the right!
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+
+    au FileType vim setlocal keywordprg=:help |
+          \ if exists(':Runtime') |
+          \ let b:dispatch = ':Runtime' |
+          \ let b:start = ':Runtime|PP' |
+          \ else |
+          \ let b:dispatch = ":unlet! g:loaded_{expand('%:t:r')}|source %" |
+          \ endif
+
 augroup END
 
 " }}}
@@ -559,7 +569,7 @@ augroup ft_xml
     " Indent tag
     au FileType xml nnoremap <buffer> <localleader>= Vat=
 
-    au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
+    " TODO fix au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
 augroup END
 
 " }}}

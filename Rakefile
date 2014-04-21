@@ -23,7 +23,7 @@ VIM_REPOS = [
   %w(tpope vim-endwise),
   %w(tpope vim-eunuch),
   %w(tpope vim-fugitive),
-  %w(tpope vim-projectile),
+  #%w(tpope vim-projectile),
   %w(tpope vim-rails),
   %w(tpope vim-rake),
   %w(tpope vim-rbenv),

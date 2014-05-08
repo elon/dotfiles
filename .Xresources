@@ -1,6 +1,15 @@
 ! https://wiki.archlinux.org/index.php/rxvt-unicode
 ! xrdb -merge ~/.Xresources 
 
+! desktop
+! Xft.dpi:  96
+! Xft.antialias:    1
+! Xft.hinting:  1
+! Xft.hintstyle:    hintslight
+! Xft.rgba: rgb
+! Xft.lcdfilter:    lcddefault
+!
+! w520 
 ! Xft.hinting:-1
 ! Xft.hintstyle:hintnone
 ! Xpdf*fileFilterStyle:filter_hidden_files
@@ -18,10 +27,12 @@ URxvt*background: [80]#000000
 
 URxvt*foreground: #DEDEDE
 
-URxvt*font: xft:Monospace:pixelsize=12
-URxvt*boldFont: xft:Monospace:bold:pixelsize=12
-! URxvt*font: xft:bitstream vera sans mono:size=8:antialias=true
-! URxvt*boldFont: xft:bitstream vera sans mono:size=8:antialias=true
+URxvt*font: xft:Monospace:pixelsize=13:antialias=true:hinting=false
+URxvt*boldFont: xft:Monospace:bold:pixelsize=13:antialias=true:hinting=false
+! URxvt*font: xft:bitstream vera sans mono:size=10:antialias=0
+! URxvt*boldFont: xft:bitstream vera sans mono:size=10:antialias=0
+! URxvt*font: xft:Ubuntu Mono:pixelsize=14:style=regular:antialias=false:hinting=false
+! URxvt*boldFont: xft:Ubuntu Mono:pixelsize=14:style=regular
 
 ! black
 URxvt*color0  : #2E3436

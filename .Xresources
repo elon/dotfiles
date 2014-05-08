@@ -1,6 +1,16 @@
 ! https://wiki.archlinux.org/index.php/rxvt-unicode
 ! xrdb -merge ~/.Xresources 
 
+! Xft.hinting:-1
+! Xft.hintstyle:hintnone
+! Xpdf*fileFilterStyle:filter_hidden_files
+! Xft.antialias:-1
+! Xft.rgba:none
+! Xft.lcdfilter:lcdnone
+! Xcursor.theme:
+! Xcursor.theme_core:true
+! Xcursor.size:theme_core0
+
 ! enable transparency
 URxvt*depth: 32
 ! URxvt*background: [90]#2B2B2B

@@ -96,4 +96,10 @@ elif [ -d $HOME/.rvm ]; then
 	PATH=$PATH:$HOME/.rvm/bin
 fi
 
+# expose gnome-keyring to shell under xfce
+if [ "$DESKTOP_SESSION" == "xfce" ];then
+    eval $(gnome-keyring-daemon --start --components=ssh)
+    export SSH_AUTH_SOCK
+fi
+
 export PATH=$(puniq $PATH)

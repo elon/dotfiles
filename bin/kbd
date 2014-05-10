@@ -1,0 +1,22 @@
+#! /usr/bin/env ruby
+
+def apple
+  `setxkbmap -option "" -option grp:shift_caps_toggle -option altwin:swap_lalt_lwin`
+end
+
+def pc
+  `setxkbmap -option "" -option grp:shift_caps_toggle`
+end
+
+def swap
+  `setxkbmap -query` =~ /lalt_lwin/ ? pc : apple
+end
+
+val = case ARGV[0]
+when 'apple'
+  apple
+when 'pc' 
+  pc
+else
+  swap
+end

@@ -16,6 +16,8 @@ graceful_start() {
     fi
 }
 
-graceful_start nm-applet &
+sleep 2
+
+graceful_start nm-applet
 graceful_start xfce4-power-manager
 graceful_start dropbox start -i

@@ -24,3 +24,4 @@ alias todos='fig TODO && fig TODO | grep EMF'
 alias touchall="find . -type f -exec touch '{}' \;"
 alias wget_mirror='wget --mirror –w 2 –p --adjust-extension --convert-links'
 alias eclipse='/opt/eclipse/eclipse &'
+alias vmup='VBoxManage -q startvm '

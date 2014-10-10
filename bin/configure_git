@@ -43,6 +43,8 @@ git config --global --replace-all alias.g "grep -Ii"
 # less should wrap lines
 git config --global --replace-all core.pager "less -r"
 
+git config --global --replace-all alias.branchdate "!git for-each-ref --sort='-authordate' --format='%(refname)%09%(authordate)' refs/heads | sed -e 's-refs/heads/--'"
+
 # lc = log ORIG_HEAD.. --stat --no-merges
 # new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
 # whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"

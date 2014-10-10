@@ -40,6 +40,9 @@ git config --global --replace-all alias.f "!git ls-files | grep -i"
 # grep for content matching $1
 git config --global --replace-all alias.g "grep -Ii"
 
+# less should wrap lines
+git config --global --replace-all core.pager "less -r"
+
 # lc = log ORIG_HEAD.. --stat --no-merges
 # new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
 # whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"

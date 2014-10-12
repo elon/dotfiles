@@ -78,9 +78,25 @@ test -n "$INTERACTIVE" -a -n "$LOGIN" && {
 	uptime
 }
 
+
+# terminal mess
+# if ever move off of gnome-terminal http://www.reddit.com/r/vim/comments/1a29vk/fixing_vims_background_color_erase_for_256color/
+# remember: 16 color, gnome-terminal, gnome-terminal to remote, gnome-terminal to remote with tmux
 # fix gnome-terminal - keep this below prompt definition
 if [[ $TERM=="xterm" && $COLORTERM=="gnome-terminal" ]]; then
 	export TERM="xterm-256color"
+fi
+# for tmux: export 256color
+if [ -n "$TMUX" ]; then
+    color_term=$COLORTERM
+    if [ -n "$SSH_CLIENT" ]; then
+        color_term="gnome-terminal"
+    fi
+    case $color_term in
+        rxvt-xpm) export TERM=screen-256color ;;         # urxvt
+        Terminal) export TERM=screen-256color ;;         # XFCE
+        gnome-terminal) export TERM=screen-256color ;;   # gnome-terminal
+    esac
 fi
 
 ### Added by the Heroku Toolbelt

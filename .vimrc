@@ -687,7 +687,7 @@ augroup END
 " colorscheme {{{
 
 " .bashrc should set TERM to xterm-256color when running gnome-terminal
-if (&term == "xterm-256color" || has("gui_running")) && has("syntax")
+if (&term == "xterm-256color" || &term == "screen-256color" || has("gui_running")) && has("syntax")
     colorscheme mustang
 else
     colorscheme elflord

@@ -1,0 +1,9 @@
+#! /bin/sh
+
+if [ -z `ps -ew|grep 'pidgin'|grep -v grep` ]; then
+    pidgin &
+fi
+
+if [ -z `ps -ew|grep 'skype'|grep -v grep` ]; then
+    skype &
+fi

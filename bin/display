@@ -1,0 +1,12 @@
+#! /usr/bin/env ruby
+
+def multihead?
+  data = `xrandr --query`
+  data.match(/DP-0 connected/) != nil
+end
+
+if multihead?
+  `xrandr --output LVDS-0 --auto --pos 0x0 --output DP-0 --auto --right-of LVDS-0`
+else
+  `xrandr --output LVDS-0 --auto --pos 0x0 --output DP-0 --off`
+end

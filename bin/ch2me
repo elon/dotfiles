@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [ $# == 0 ];then
+    echo "usage: $0 [target] [user] [group]" && exit 1
+fi
+
+target=$1
+user=$2
+group=$3
+
+if [ -z $user ]; then
+    user=$USER
+fi
+
+if [ -z $group ]; then
+    group=$USER
+fi
+
+if [ -d $target ]; then
+    chown -R $user:$group $target
+    find $target -type d -print0 | xargs -0 chmod 2770
+    find $target -type f \! -executable -print0 | xargs -0 chmod 0660
+    find $target -type f -executable -print0 | xargs -0 chmod 0760
+else
+    chown $user:$group $target
+fi

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if hash thunar 2>/dev/null; then
+    thunar $1
+elif hash nautilus 2>/dev/null; then
+    nautilus --no-desktop $1
+else
+    echo 'No file explorer found'
+    exit 1
+fi

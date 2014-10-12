@@ -1,0 +1,23 @@
+#!/bin/sh
+
+pid_for_process() {
+    local name=$1
+    ps -eww -o pid,command|grep "$name"|grep -v grep |sed -e 's/^[ \t]*//'| cut -d " " -f 1
+}
+
+graceful_start() {
+    local name=$1
+    local pid=$(pid_for_process $name)
+    if [ -z "$pid" ]; then
+        echo "starting $name"
+        eval "$@"
+    else
+        echo "already running $name"
+    fi
+}
+
+sleep 2
+
+graceful_start nm-applet
+graceful_start xfce4-power-manager
+graceful_start dropbox start -i

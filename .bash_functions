@@ -1,3 +1,12 @@
+function sshvm() {
+    local ip=`vmips -q $1`
+    if [ -n ip ]; then
+        ssh $ip
+    else
+        echo "No IP found"
+    fi
+}
+
 function clearhistory() {
 	history -w && history -c
 	cat /dev/null > ~/.bash_history

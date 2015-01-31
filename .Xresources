@@ -20,6 +20,9 @@
 ! Xcursor.theme_core:true
 ! Xcursor.size:theme_core0
 
+! TODO this might not work yet with an old version of urxvt
+URxvt.clipboad.autocopy : true
+
 ! enable transparency
 URxvt*depth: 32
 ! URxvt*background: [90]#2B2B2B

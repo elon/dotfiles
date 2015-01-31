@@ -5,6 +5,16 @@
 # esac
 # color_prompt=yes
 
+function fix_git_prompt() {
+    if hash git 2>/dev/null; then
+        pushd /var/tmp
+        git clone git://git.kernel.org/pub/scm/git/git.git
+        sudo chown -R root:root /var/tmp/git
+        sudo mv /var/tmp/git /opt
+        popd
+    fi
+}
+
 custom_prompt() {
 	BLACK="\[\033[0;30m\]"
 	BBLACK="\[\033[1;30m\]"
@@ -26,6 +36,7 @@ custom_prompt() {
 		PS1="${BLUE}\w\n${BBLACK}\u${BBLACK}@${BBLACK}\h${BBLACK} [\j]\$(__git_ps1 \" (%s)\") ${BBLACK}$P${PS_CLEAR} "
 		PS2="> "
 	else
+        echo "run fix_git_prompt"
 		PS1="${BLUE}\w\n${BBLACK}\u${BBLACK}@${BBLACK}\h${BBLACK} [\j] ${BBLACK}$P${PS_CLEAR} "
 		PS2="> "
 	fi

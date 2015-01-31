@@ -1,9 +1,63 @@
 #! /usr/bin/env ruby
 
-vms = `VBoxManage list runningvms`
-vms = vms.split("\n").map {|v| v.split[0].gsub(/"/,'')}
-vms.each do |vm|
-  ip = `VBoxManage guestproperty enumerate #{vm}|grep Net/1/V4/IP`
-  ip = ip.scan(/value: ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/)
-  puts "#{vm}: #{ip.flatten}"
+# NOTE: must install guest additions for this to work
+#   must install current oracle virtualbox for guest additions to install correctly
+#     ubuntu version of virtualbox is too out of date to work with current ubuntu kernel
+#   see bootstrap scripts
+
+require 'optparse'
+
+class VMManager
+
+  class VM < Struct.new(:name, :ips)
+
+    def default_ip
+      ips.first
+    end
+
+  end
+
+  def initialize
+    @vms = []
+    vms = `VBoxManage list runningvms`
+    vms = vms.split("\n").map {|v| v.split[0].gsub(/"/,'')}
+    vms.each { |vm| process_vm(vm) }
+  end
+
+  def vm(name)
+    @vms.find { |vm| vm.name == name }
+  end
+
+  def process_vm(vm)
+    ip = `VBoxManage guestproperty enumerate #{vm}|grep Net/[0-9]/V4/IP`
+    ip = ip.scan(/value: ([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/)
+    @vms << VM.new(vm, ip.flatten)
+  end
+
+  def print_vms
+    @vms.each {|vm| puts "#{vm.name}: #{vm.ips}"}
+  end
+
+end
+
+if __FILE__ == $0
+
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: #{File.basename __FILE__} [options]"
+
+    opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+      options[:verbose] = v
+    end
+    opts.on("-q", "--quiet [NAME]", "display first ip of named vm and exit") do |name|
+      options[:quiet] = name
+    end
+  end.parse!
+
+  manager = VMManager.new
+  if options[:quiet]
+    puts manager.vm(options[:quiet]).default_ip
+  else
+    manager.print_vms
+  end
 end

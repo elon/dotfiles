@@ -119,3 +119,13 @@ function clearlogs {
 		cat /dev/null > $f
 	done
 }
+
+function clean_on_logout {
+    cleanslate=`which cleanslate`
+    if [ -x $cleanslate ]; then
+        history -w
+        cleanslate -b
+        history -c
+    fi
+}
+

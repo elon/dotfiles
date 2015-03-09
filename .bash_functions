@@ -13,6 +13,11 @@ function clearhistory() {
 }
 
 function fig() {
+    # if rails project
+    # if [ -f "config/environment.rb" ]; then
+    # fi
+    # unless in assets folder drop assets
+    # unless in log folder drop log
 	function _fig() {
 		find . -type f -print0| grep -z -v '.git' | grep -z -v '.swp' | grep -z -v '.tags' | grep -z -v _site
 	}

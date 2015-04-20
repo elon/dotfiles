@@ -27,3 +27,4 @@ alias eclipse='/opt/eclipse/eclipse &'
 alias vmup='VBoxManage -q startvm '
 alias printtext='lp -o cpi=14 -o lpi=10 ' #filename
 alias open=xdg-open
+alias cachessh='eval `ssh-agent -s` && ssh-add'

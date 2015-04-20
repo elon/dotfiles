@@ -1,9 +1,5 @@
 #!/bin/bash
 
-pushd ~/vpn
-myip
-
-sudo openvpn --config config.linux.ovpn
-
+pushd ~/ovpn
+sudo openvpn --config client.ovpn
 popd
-myip

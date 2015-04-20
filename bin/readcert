@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "usage: read-cert [host|url] [port]" && exit 1
+fi
+
+host=$1
+port=${2:-443}
+regex="^http.*"
+
+if [[ $host =~ $regex ]]; then
+    host=$(echo $host| awk -F/ '{print $3}')
+fi
+
+echo | openssl s_client -connect ${host}:${port} 2>&1 |\
+sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' |\
+openssl x509 -text

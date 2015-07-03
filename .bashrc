@@ -70,7 +70,12 @@ fi
 export EDITOR=vim
 export SVN_EDITOR=vim
 export RUBYLIB=~/.ruby # added to the search path
-export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:bin/javac::")
+
+# might have already been defined in ~/.bash_private
+if [ -z $JAVA_HOME ]; then
+    export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:bin/javac::")
+fi
+
 # export ANDROID_LOG_TAGS="TAGNAME:D *:W"
 
 [[ -s "$HOME/.bash_exports.local" ]] && source "$HOME/.bash_exports.local"

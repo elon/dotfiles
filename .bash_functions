@@ -83,9 +83,10 @@ function killrails() {
 function bouncerails() {
 	stoprails
 	sleep 0.5
-	if [ -f "config/unicorn.conf" ]
-	then
+	if [ -f "config/unicorn.conf" ]; then
 		bundle exec unicorn -c config/unicorn.conf -D
+	elif [ -f "config/unicorn.rb" ]; then
+		bundle exec unicorn -c config/unicorn.rb -D
 	else
 		bundle exec unicorn_rails -D
 	fi

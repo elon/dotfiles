@@ -114,6 +114,10 @@ elif [ -d $HOME/.rvm ]; then
 	PATH=$PATH:$HOME/.rvm/bin
 fi
 
+if [ -d $HOME/.nvm ]; then
+    . ~/.nvm/nvm.sh
+fi
+
 # expose gnome-keyring to shell under xfce
 if [ "$DESKTOP_SESSION" == "xfce" ];then
     eval $(gnome-keyring-daemon --start --components=ssh)

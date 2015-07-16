@@ -141,6 +141,36 @@ function! CustomFolds() " {{{
 endfunction " }}}
 set foldtext=CustomFolds()
 
+" credit: https://gist.github.com/sjl/1038710
+func! Foldexpr_markdown(lnum)
+    let l1 = getline(a:lnum)
+
+    if l1 =~ '^\s*$'
+        " ignore empty lines
+        return '='
+    endif
+
+    let l2 = getline(a:lnum+1)
+
+    if l2 =~ '^==\+\s*'
+        " next line is underlined (level 1)
+        return '>1'
+    elseif l2 =~ '^--\+\s*'
+        " next line is underlined (level 2)
+        return '>2'
+    elseif l1 =~ '^#'
+        " current line starts with hashes
+        return '>'.matchend(l1, '^#\+')
+    elseif a:lnum == 1
+        " fold any 'preamble'
+        return '>1'
+    else
+        " keep previous foldlevel
+        return '='
+    endif
+endfunc 
+
+
 " }}}
 
 " functions {{{
@@ -311,7 +341,7 @@ nnoremap <leader>m :messages<cr>
 
 nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>lcd :lcd %:p:h<CR>
-nnoremap <leader>o :silent execute "!nautilus " . expand("%:h")<cr>
+nnoremap <leader>o :silent execute "!file-manager " . expand("%:h")<cr>
 
 " clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
@@ -455,7 +485,11 @@ augroup ft_markdown
 
     au BufNewFile,BufRead *.markdown,*.md,*.mdown,*.mkd,*.mkdn setlocal filetype=markdown
     
-    au Filetype markdown setlocal foldlevel=1 fo+=t
+    au Filetype markdown setlocal foldlevel=1
+    au Filetype markdown setlocal fo+=t " enable auto text wrapping
+    au Filetype markdown setlocal foldexpr=Foldexpr_markdown(v:lnum)
+    au Filetype markdown setlocal foldmethod=expr
+    " au Filetype markdown setlocal foldenable
     au Filetype markdown nnoremap <buffer> <localleader>1 mzI#<space><esc>
     au Filetype markdown nnoremap <buffer> <localleader>2 mzI##<space><esc>
     au Filetype markdown nnoremap <buffer> <localleader>3 mzI###<space><esc>

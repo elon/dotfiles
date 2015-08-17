@@ -1,0 +1,5 @@
+#!/bin/sh
+
+amixer get Master|head -n 1|cut -d ',' -f 2 > /tmp/lastvol
+~/bin/volume mute
+sudo pm-suspend

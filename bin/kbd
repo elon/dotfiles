@@ -6,12 +6,16 @@ def help
   puts `setxkbmap -print -verbose 10`
 end
 
+# the quotes surrounding the options parameters made a sudden major difference
+
 def apple
-  `setxkbmap -model applealu_ansi -option "" -option grp:shift_caps_toggle -option altwin:swap_lalt_lwin`
+  #`setxkbmap -model applealu_ansi -option "" -option grp:shift_caps_toggle -option altwin:swap_lalt_lwin`
+  `setxkbmap -model applealu_ansi -option "" -option "grp:shift_caps_toggle" -option "altwin:swap_alt_win"`
 end
 
 def pc
-  `setxkbmap -model pc105 -option "" -option grp:shift_caps_toggle`
+  # `setxkbmap -model pc105 -option "" -option grp:shift_caps_toggle`
+  `setxkbmap -model pc105 -option "" -option "grp:shift_caps_toggle"`
 end
 
 def swap

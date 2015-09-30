@@ -23,9 +23,12 @@ graceful_start() {
 
 sleep 2
 
+# i.e. Ubuntu 14.04.1 LTS
+ubuntu_version=`lsb_release -a 2>/dev/null |grep Description|cut -f 2`
+
+kbd apple
+
 if [ `ps -e -o pid,command|grep "nm-applet"|grep -v grep | wc -l` -eq 0 ]; then
-    # i.e. Ubuntu 14.04.1 LTS
-    ubuntu_version=`lsb_release -a 2>/dev/null |grep Description|cut -f 2`
     if [[ "$ubuntu_version" =~ "12.04" ]]; then
         nm-applet > /dev/null 2>&1 &
     else

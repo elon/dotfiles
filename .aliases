@@ -28,3 +28,5 @@ alias vmup='VBoxManage -q startvm '
 alias printtext='lp -o cpi=14 -o lpi=10 ' #filename
 alias open=xdg-open
 alias cachessh='eval `ssh-agent -s` && ssh-add'
+alias clearhistory='cat /dev/null > ~/.bash_history && history -c && exit'
+alias sshsuspend='nohup ~/bin/sshsuspend &'

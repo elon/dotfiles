@@ -1,13 +1,13 @@
 #! /usr/bin/env ruby
 
-# see model list at /usr/share/X11/xkb/rules/base.lst
+# NOTE: see model list and options at /usr/share/X11/xkb/rules/base.lst
 
 def help
   puts `setxkbmap -print -verbose 10`
 end
 
 def apple
-  `setxkbmap -model applealu_ansi -option "" -option grp:shift_caps_toggle -option altwin:swap_lalt_lwin`
+  `setxkbmap -model applealu_ansi -option "" -option grp:shift_caps_toggle -option altwin:swap_alt_win`
 end
 
 def pc

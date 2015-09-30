@@ -1,0 +1,23 @@
+#! /bin/sh
+
+remote_dir=$HOME/Dropbox
+remote_name=dropbox
+
+if [ ! -d $remote_dir ];
+then
+	echo "$remote_dir does not exist" && exit 1
+fi
+
+if [ ! -d ./.git ];
+then
+	echo "This is not a git repository" && exit 1
+fi
+
+name=`basename $( pwd )`
+remote_url="$remote_dir/${name}.git"
+head="`git branch|grep '^\* '|cut -b 3-`"
+
+git clone --bare . $remote_url &&
+	git remote add $remote_name "$remote_url" &&
+	git config branch."$head".remote $remote_name &&
+	git config branch."$head".merge "refs/heads/$head"

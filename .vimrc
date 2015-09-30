@@ -207,14 +207,25 @@ nnoremap gb :OpenURL <cfile><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
 " }}}
 
-function! MarkdownToFirefox()
-	if executable("markdown") && (executable("firefox") || executable("google-chrome"))
+function! MarkdownToBrowser()
+	if executable("pandoc") && (executable("google-chrome") || executable("firefox"))
 		let l:target = "/tmp/" . expand("%:t:r") . ".html"
-		execute "!markdown " . expand("%") . "> " . l:target
+        execute "!pandoc -f markdown -t html -o " . l:target . " " . expand("%")
 		call OpenURL(l:target)
 	else
-		echo "Install markdown and a browser"
+		echo "Install pandoc and a browser"
 	endif
+endfunction
+
+function! MarkdownToPDF()
+    let pdfname = expand("%:t:r") . ".pdf"
+    execute "!pandoc -f markdown -t latex -o " . l:pdfname . " " . expand("%")
+    return l:pdfname
+endfunction
+
+function! MarkdownToOpenPDF()
+    let pdfname = MarkdownToPDF()
+    execute "!xdg-open " . l:pdfname
 endfunction
 
 function! Run() " {{{
@@ -487,6 +498,7 @@ augroup ft_markdown
     
     au Filetype markdown setlocal foldlevel=1
     au Filetype markdown setlocal fo+=t " enable auto text wrapping
+    au Filetype markdown setlocal tw=100
     au Filetype markdown setlocal foldexpr=Foldexpr_markdown(v:lnum)
     au Filetype markdown setlocal foldmethod=expr
     " au Filetype markdown setlocal foldenable
@@ -494,7 +506,8 @@ augroup ft_markdown
     au Filetype markdown nnoremap <buffer> <localleader>2 mzI##<space><esc>
     au Filetype markdown nnoremap <buffer> <localleader>3 mzI###<space><esc>
 
-    au FileType markdown nnoremap <buffer> <leader>f :call MarkdownToFirefox()<cr>
+    au FileType markdown nnoremap <buffer> <leader>f :call MarkdownToBrowser()<cr>
+    au FileType markdown nnoremap <buffer> <leader>p :call MarkdownToOpenPDF()<cr>
 augroup END
 
 " }}}
